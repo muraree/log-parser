@@ -11,17 +11,17 @@ describe Player do
     it "should increase kill times when player kills another player" do
       player1.kill(player2)
       expect(player1.kill_times).to eq(1)
-      expect(player2.no_suicide_death_times).to eq(1)
+      expect(player2.no_world_kill_times).to eq(1)
     end
 
     it "should increase suicide times when player kills himself" do
       player1.kill(player1)
-      expect(player1.suicide_times).to eq(1)
+      expect(player1.world_kill_times).to eq(1)
     end
 
     it "should increase suicide times when player is killed by <world>" do
       player3.kill(player1)
-      expect(player1.suicide_times).to eq(1)
+      expect(player1.world_kill_times).to eq(1)
     end
   end
 
@@ -34,4 +34,6 @@ describe Player do
       expect(player4.get_score).to eq(4)
     end
   end
+
+
 end
