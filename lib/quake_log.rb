@@ -1,12 +1,16 @@
+# frozen_string_literal: true
+
 require_relative 'log_utils'
 require_relative 'game'
 
 class QuakeLog
   include LogUtils
 
+  attr_reader :games
+
   def initialize(log_file = get_log_file_path)
     @log_file = log_file
-    @game = []
+    @games = []
     @current_game = nil
   end
 

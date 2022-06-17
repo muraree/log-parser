@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class Player
-  attr_accessor :name, :kill_times, :no_world_kill_times, :world_kill_times 
-  
-  def initializer(name, kill_times = 0, no_world_kill_times = 0, world_kill_times = 0)
+  attr_accessor :name, :kill_times, :no_world_kill_times, :world_kill_times
+
+  def initialize(name, kill_times = 0, no_world_kill_times = 0, world_kill_times = 0)
     @name = name
     @kill_times = kill_times
     @no_world_kill_times = no_world_kill_times
@@ -9,7 +11,7 @@ class Player
   end
 
   def kill(player)
-    if self == player || @name == "<world>"
+    if self == player || @name == '<world>'
       player.world_kill_times += 1
     else
       @kill_times += 1

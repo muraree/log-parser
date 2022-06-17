@@ -1,10 +1,13 @@
+# frozen_string_literal: true
+require 'pry'
+
 module LogUtils
-  LOG_FILE_NAME = "quake.log"
-  INIT_GAME_REGREX = /InitGame/
-  END_GAME_REGREX = /-----/
-  PLAYER_REGREX = /ClientUserinfoChanged: \d n\\(.*?)\\/
-  KILL_REGREX = /Kill:.*:\s(.*)\skilled\s(.*)\sby\s(.*)/
-  MEANS_OF_DEATH = %i(
+  LOG_FILE_NAME = 'quake.log'
+  INIT_GAME_REGREX = /InitGame/.freeze
+  END_GAME_REGREX = /-----/.freeze
+  PLAYER_REGREX = /ClientUserinfoChanged: \d n\\(.*?)\\/.freeze
+  KILL_REGREX = /Kill:.*:\s(.*)\skilled\s(.*)\sby\s(.*)/.freeze
+  MEANS_OF_DEATH = %i[
     MOD_UNKNOWN
     MOD_SHOTGUN
     MOD_GAUNTLET
@@ -34,7 +37,7 @@ module LogUtils
     MOD_KAMIKAZE
     MOD_JUICED
     MOD_GRAPPLE
-  )
+  ].freeze
   
   def get_log_file_path
     File.expand_path("../../quake_logs/#{LOG_FILE_NAME}", __FILE__)
@@ -43,17 +46,17 @@ module LogUtils
   def read_from_file(filename)
     file = File.open(filename, 'r')
     yield file if block_given?
-  rescue Errno::ENOENT => ex
+  rescue Errno::ENOENT => e
     puts "File not found: #{filename}"
-    raise ex
-  rescue Errno::EACCES => ex
+    raise e
+  rescue Errno::EACCES => e
     puts "File permission denied: #{filename}"
-    raise ex
-  rescue => ex
-    puts "IO error: #{ex.message}"
-    raise ex
+    raise e
+  rescue => e
+    puts "IO error: #{e.message}"
+    raise e
   ensure
-    file.close if file
+    file&.close if file
   end
 
   def game_start?(line)
@@ -82,6 +85,7 @@ module LogUtils
     killer = $1
     killed = $2
     kill_reason = $3
-    return killer, killed, kill_reason
+    return [killer, killed, kill_reason]
   end
+
 end
