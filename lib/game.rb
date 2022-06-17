@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'json'
-require 'pry'
 
 require_relative 'kill'
 require_relative 'player'

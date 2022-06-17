@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'pry'
 
 module LogUtils
   LOG_FILE_NAME = 'quake.log'
