@@ -2,7 +2,6 @@
 
 require 'optparse'
 require_relative 'lib/quake_log'
-require 'pry'
 
 class QuakeGame
   def self.parse(args)
