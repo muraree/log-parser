@@ -39,27 +39,21 @@ class QuakeLog
 
   def display_game_information(game_name)
     if game_name
-      puts get_game_by_name(game_name)
+      get_game_by_name(game_name)
     else
-      @games.each { |game| puts game }
+      @games
     end
   end
 
-  def display_kill_reasons(game_name)
-    if game_name
-      game = get_game_by_name(game_name)
-      puts game.display_aggregation_kill_reasons
-    else
-      @games.each { |game| puts game.display_aggregation_kill_reasons }
-    end
+  def display_kill_reasons
+    @games
   end
 
   def get_game_by_name(game_name)
     game = @games.detect { |g| g.game_name == game_name }
     return game if game
 
-    puts "Error: Game #{game_name} not found."
+    "Error: Game #{game_name} not found."
     exit 1
   end
-
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Kill
   attr_reader :killer, :killed, :kill_reason
 

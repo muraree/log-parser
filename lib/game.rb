@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require 'json'
-
 require_relative 'kill'
 require_relative 'player'
 
 class Game
+
   def initialize(game_name)
     @game_name = game_name
     @kills = []
@@ -35,17 +35,18 @@ class Game
       score_info[player.name] = player.get_score
     end
 
-    { @game_name => { total_kills: total_kills,
+    { @game_name => { total_kills: @kills.length,
                       players: player_names,
-                      kills: score_info } }
+                      kills: score_info}
+    }
   end
 
   def to_s
-    JSON.pretty_generate(output_game)
+    JSON.pretty_generate(output_game_hash)
   end
 
-  def display_aggregation_kill_reasons
-    JSON.pretty_generate(generate_aggregation_kill_reasons)
+  def display_kill_reasons
+    JSON.pretty_generate(generate_aggregation_kill_reasons_hash)
   end
 
   def generate_aggregation_kill_reasons
@@ -54,7 +55,7 @@ class Game
       kill_reasons[kill.kill_reason] ||= 0
       kill_reasons[kill.kill_reason] += 1
     end
-    { @game_name => { kills_by_means: kill_reasons } }
+    { @game_name => { kills_by_means: kill_reasons}}
   end
 
   private
@@ -63,12 +64,8 @@ class Game
     real_players.map(&:name)
   end
 
-  def total_kills
-    @kills.length
-  end
-
   def real_players
-    @players.reject { |player| player.name == '<world>' }
+    @players.select {|player| player.name != '<world>'}
   end
 
   def create_new_player(name)

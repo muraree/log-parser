@@ -6,6 +6,7 @@ module LogUtils
   END_GAME_REGREX = /-----/.freeze
   PLAYER_REGREX = /ClientUserinfoChanged: \d n\\(.*?)\\/.freeze
   KILL_REGREX = /Kill:.*:\s(.*)\skilled\s(.*)\sby\s(.*)/.freeze
+
   MEANS_OF_DEATH = %i[
     MOD_UNKNOWN
     MOD_SHOTGUN
@@ -37,7 +38,7 @@ module LogUtils
     MOD_JUICED
     MOD_GRAPPLE
   ].freeze
-  
+
   def get_log_file_path
     File.expand_path("../../quake_logs/#{LOG_FILE_NAME}", __FILE__)
   end
@@ -51,7 +52,7 @@ module LogUtils
   rescue Errno::EACCES => e
     puts "File permission denied: #{filename}"
     raise e
-  rescue => e
+  rescue StandardError => e
     puts "IO error: #{e.message}"
     raise e
   ensure
@@ -72,7 +73,7 @@ module LogUtils
 
   def get_player_name(line)
     line =~ PLAYER_REGREX
-    $1
+    Regexp.last_match(1)
   end
 
   def kill_event?(line)
@@ -81,10 +82,9 @@ module LogUtils
 
   def get_kill_info_from_kill_event(line)
     line =~ KILL_REGREX
-    killer = $1
-    killed = $2
-    kill_reason = $3
-    return [killer, killed, kill_reason]
+    killer = Regexp.last_match(1)
+    killed = Regexp.last_match(2)
+    kill_reason = Regexp.last_match(3)
+    [killer, killed, kill_reason]
   end
-
 end
