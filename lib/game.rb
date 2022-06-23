@@ -6,6 +6,8 @@ require_relative 'player'
 
 class Game
 
+  attr_reader :game_name
+  
   def initialize(game_name)
     @game_name = game_name
     @kills = []
@@ -42,11 +44,11 @@ class Game
   end
 
   def to_s
-    JSON.pretty_generate(output_game_hash)
+    JSON.pretty_generate(output_game)
   end
 
   def display_kill_reasons
-    JSON.pretty_generate(generate_aggregation_kill_reasons_hash)
+    JSON.pretty_generate(generate_aggregation_kill_reasons)
   end
 
   def generate_aggregation_kill_reasons
