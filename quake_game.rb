@@ -10,10 +10,7 @@ class QuakeGame
       opt.banner = 'Usage: ruby main.rb [options]'
       opt.separator ''
       opt.separator 'Specific options:'
-      opt.on('-k', '--kill-reason', 'Display aggregation of kill reasons.') do
-        options[:kill_reason] = true
-      end
-
+      
       opt.on("-f Name", "--file Name",
               "Specify file path.") do |value|
         options[:file] = value
